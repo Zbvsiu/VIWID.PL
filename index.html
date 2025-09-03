@@ -21,52 +21,59 @@
     </header>
 
     <section class="hero-section">
-        <canvas id="background-canvas"></canvas>
-        <div class="hero-content">
-            <h1 class="glitch-text" data-text="VIWID.PL">VIWID.PL</h1>
-            <p class="subtitle">Kreatywna Agencja Cyfrowa</p>
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                Tworzymy <span class="highlight">cyfrowe</span> doświadczenia, które definiują przyszłość.
+            </h1>
+            <p class="hero-subtitle">
+                VIWID.PL - Agencja cyfrowa, specjalizująca się w projektowaniu interaktywnych stron internetowych i identyfikacji wizualnej.
+            </p>
         </div>
     </section>
 
     <section id="about" class="about-section container">
-        <div class="section-title-wrap">
-            <h2 class="section-title">O nas</h2>
+        <h2 class="section-title">O nas</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    W VIWID.PL łączymy **kreatywność z precyzją**. Nasze podejście opiera się na głębokim zrozumieniu celów biznesowych klienta i przekształcaniu ich w **piękne, funkcjonalne i skuteczne projekty**. Każde zlecenie traktujemy jako unikalne wyzwanie, w którym kluczem jest dbałość o detale i innowacyjność.
+                </p>
+                <p>
+                    Specjalizujemy się w projektowaniu stron, które nie tylko wyglądają niesamowicie, ale także działają bez zarzutu na każdym urządzeniu.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="Creative work process">
+            </div>
         </div>
-        <p class="about-text">
-            W VIWID.PL wierzymy w tworzenie cyfrowych doświadczeń, które są nie tylko funkcjonalne, ale przede wszystkim <strong class="about-strong">niezapomniane</strong>. Jesteśmy zespołem pasjonatów, którzy łączą kreatywność z najnowszymi technologiami, aby ożywiać Twoje pomysły.
-        </p>
     </section>
 
     <section id="projects" class="projects-section">
-        <div class="section-title-wrap">
+        <div class="container">
             <h2 class="section-title">Projekty</h2>
-        </div>
-        <div class="projects-grid container">
-            <div class="project-card booklly-card">
-                <div class="project-logo">
-                    <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="BOOKLLY Logo">
+            <div class="projects-grid">
+                <div class="project-card booklly-card">
+                    <div class="project-info">
+                        <h3>BOOKLLY</h3>
+                        <p>Zaawansowana platforma rezerwacyjna, która upraszcza proces planowania.</p>
+                        <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
+                    </div>
+                    <div class="project-image">
+                        <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="BOOKLLY">
+                    </div>
                 </div>
-                <div class="project-info">
-                    <h3>BOOKLLY</h3>
-                    <p>Zaawansowana platforma rezerwacyjna, która upraszcza proces planowania.</p>
-                    <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
+                <div class="project-card coming-soon-card">
+                    <div class="project-info">
+                        <h3>Wkrótce...</h3>
+                        <p>Tworzymy coś nowego. Bądź na bieżąco!</p>
+                    </div>
                 </div>
-            </div>
-            <div class="project-card coming-soon">
-                <h3>Wkrótce...</h3>
-                <p>Tworzymy coś niesamowitego! Bądź na bieżąco.</p>
-            </div>
-            <div class="project-card coming-soon">
-                <h3>Wkrótce...</h3>
-                <p>Tworzymy coś niesamowitego! Bądź na bieżąco.</p>
             </div>
         </div>
     </section>
 
     <section id="contact" class="contact-section container">
-        <div class="section-title-wrap">
-            <h2 class="section-title">Kontakt</h2>
-        </div>
+        <h2 class="section-title">Kontakt</h2>
         <form id="contact-form" class="contact-form">
             <div class="form-group">
                 <label for="name">Imię i nazwisko</label>
@@ -80,12 +87,14 @@
                 <label for="message">Wiadomość</label>
                 <textarea id="message" name="message" rows="5" required></textarea>
             </div>
-            <button type="submit" class="submit-btn">Wyślij</button>
+            <button type="submit" class="submit-btn">Wyślij wiadomość</button>
         </form>
     </section>
 
     <footer>
-        <p>&copy; 2024 VIWID.PL. All rights reserved.</p>
+        <div class="container">
+            <p>&copy; 2024 VIWID.PL. All rights reserved.</p>
+        </div>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
