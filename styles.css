@@ -1,0 +1,367 @@
+/* Global Styles */
+:root {
+    --bg-color: #000;
+    --text-color: #fff;
+    --neon-purple: #ff00ff;
+    --neon-blue: #00ffff;
+    --link-hover-color: #ff00ff;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    overflow-x: hidden;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Header & Navigation */
+header {
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    padding: 20px 0;
+    transition: background-color 0.3s ease;
+}
+
+header nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--neon-blue);
+    letter-spacing: 2px;
+}
+
+header ul {
+    display: flex;
+    list-style: none;
+}
+
+header li a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1rem;
+    margin-left: 30px;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+header li a::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+    height: 2px;
+    background-color: var(--neon-purple);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+}
+
+header li a:hover {
+    color: var(--neon-purple);
+}
+
+header li a:hover::after {
+    transform: scaleX(1);
+}
+
+/* Hero Section */
+.hero-section {
+    position: relative;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    text-align: center;
+}
+
+#background-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.glitch-text {
+    font-size: 6rem;
+    font-weight: 700;
+    letter-spacing: 5px;
+    text-transform: uppercase;
+    position: relative;
+    display: inline-block;
+}
+
+.glitch-text::before,
+.glitch-text::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.glitch-text::before {
+    left: 2px;
+    text-shadow: -2px 0 var(--neon-purple);
+    clip-path: inset(0 0 0 0);
+}
+
+.glitch-text::after {
+    left: -2px;
+    text-shadow: -2px 0 var(--neon-blue);
+    clip-path: inset(0 0 0 0);
+}
+
+.subtitle {
+    font-size: 1.5rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-top: 10px;
+}
+
+/* General Section Styles */
+section {
+    padding: 100px 0;
+}
+
+.section-title-wrap {
+    text-align: center;
+    margin-bottom: 50px;
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 600;
+    color: var(--neon-blue);
+    position: relative;
+    display: inline-block;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    bottom: -10px;
+    width: 80%;
+    height: 3px;
+    background-color: var(--neon-purple);
+    transform: translateX(-50%);
+}
+
+/* About Section */
+.about-section {
+    text-align: center;
+}
+
+.about-text {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.about-text strong {
+    color: var(--neon-purple);
+}
+
+/* Projects Section */
+.projects-section {
+    background-color: #050505;
+}
+
+.projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+}
+
+.project-card {
+    background-color: #111;
+    border-radius: 10px;
+    padding: 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid transparent;
+}
+
+.booklly-card .project-logo img {
+    max-width: 150px;
+    transform: rotateX(20deg) rotateY(-20deg);
+    transition: transform 0.5s ease;
+}
+
+.booklly-card:hover .project-logo img {
+    transform: rotateX(0deg) rotateY(0deg);
+}
+
+.project-info h3 {
+    margin-top: 20px;
+    font-size: 1.8rem;
+    color: var(--neon-blue);
+}
+
+.project-info p {
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.project-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 25px;
+    border: 2px solid var(--neon-purple);
+    color: var(--neon-purple);
+    text-decoration: none;
+    font-weight: 600;
+    position: relative;
+}
+
+.project-link::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--neon-purple);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: -1;
+}
+
+.project-link:hover::after {
+    transform: scaleX(1);
+}
+
+.project-link:hover {
+    color: var(--bg-color);
+}
+
+.coming-soon {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.5;
+    border-style: dashed;
+}
+
+/* Contact Section */
+.contact-form {
+    max-width: 600px;
+    margin: 0 auto;
+    background-color: #111;
+    padding: 40px;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    transition: border-color 0.3s ease;
+}
+
+.contact-form:hover {
+    border-color: var(--neon-blue);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 5px;
+    color: var(--neon-blue);
+}
+
+.form-group input,
+.form-group textarea {
+    width: 100%;
+    padding: 15px;
+    background-color: #000;
+    border: 2px solid #333;
+    border-radius: 5px;
+    color: var(--text-color);
+    transition: border-color 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--neon-purple);
+}
+
+.submit-btn {
+    width: 100%;
+    padding: 15px;
+    background-color: var(--neon-purple);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 30px 0;
+    background-color: #050505;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .glitch-text {
+        font-size: 3rem;
+    }
+    .subtitle {
+        font-size: 1rem;
+    }
+    header nav {
+        flex-direction: column;
+        gap: 15px;
+    }
+    header ul {
+        justify-content: center;
+    }
+    header li a {
+        margin: 0 15px;
+    }
+    .section-title {
+        font-size: 2rem;
+    }
+}
