@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIWID.PL - Creative Digital Agency</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Styles - All in one place for convenience */
+        :root {
+            --primary-color: #2c2c2c;
+            --secondary-color: #f7f7f7;
+            --accent-color: #5c62d5;
+            --light-bg: #fdfdfd;
+            --font-family: 'Poppins', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--secondary-color);
+            color: var(--primary-color);
+            font-family: var(--font-family);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header & Navigation */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background-color: var(--secondary-color);
+            padding: 20px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #888;
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent-color);
+        }
+
+        /* Hero Section */
+        .hero-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            min-height: 90vh;
+            padding: 80px 0;
+            background-color: var(--light-bg);
+        }
+
+        .hero-title {
+            font-size: clamp(2rem, 6vw, 4rem);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+        }
+
+        .hero-title .highlight {
+            color: var(--accent-color);
+            position: relative;
+            display: inline-block;
+            transition: transform 0.5s ease;
+        }
+
+        .hero-subtitle {
+            font-size: clamp(1rem, 2.5vw, 1.2rem);
+            font-weight: 300;
+            color: #888;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section Titles */
+        .section-title {
+            font-size: clamp(2rem, 4vw, 2.5rem);
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title span {
+            color: var(--accent-color);
+        }
+
+        /* About Section */
+        .about-section {
+            background-color: var(--secondary-color);
+            padding: 100px 0;
+        }
+
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .about-text strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Projects Section */
+        .projects-section {
+            background-color: var(--light-bg);
+            padding: 100px 0;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+        }
+
+        .project-card {
+            display: flex;
+            align-items: center;
+            background-color: var(--secondary-color);
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+            padding: 40px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-info {
+            flex: 1;
+        }
+
+        .project-info h3 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .project-info p {
+            color: #888;
+        }
+
+        .project-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+        }
+
+        .project-link:hover {
+            background-color: var(--accent-color);
+            color: #fff;
+        }
+
+        .project-image {
+            width: 200px;
+            margin-left: 50px;
+            text-align: center;
+        }
+
+        .project-image img {
+            width: 100%;
+            display: block;
+        }
+
+        .coming-soon-card {
+            background-color: #f0f0f0;
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--secondary-color);
+            padding: 100px 0;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 500;
+            margin-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            font-family: var(--font-family);
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 3px rgba(92, 98, 213, 0.2);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: var(--accent-color);
+            color: #fff;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #4a50b8;
+            transform: translateY(-3px);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            background-color: var(--light-bg);
+            border-top: 1px solid #e0e0e0;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            nav ul {
+                display: none; /* Hide navigation on mobile to simplify */
+            }
+
+            .about-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .about-image {
+                order: -1;
+                margin-bottom: 40px;
+            }
+
+            .project-card {
+                flex-direction: column;
+            }
+
+            .project-image {
+                margin: 40px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav class="container">
+            <div class="logo">VIWID.PL</div>
+            <ul>
+                <li><a href="#about">O nas</a></li>
+                <li><a href="#projects">Projekty</a></li>
+                <li><a href="#contact">Kontakt</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero-section">
+        <div class="container hero-content">
+            <h1 class="hero-title">
+                Tworzymy cyfrowe doświadczenia, które definiują <span class="highlight">przyszłość</span>.
+            </h1>
+            <p class="hero-subtitle">
+                VIWID.PL - Agencja cyfrowa, specjalizująca się w projektowaniu interaktywnych stron internetowych i identyfikacji wizualnej.
+            </p>
+        </div>
+    </section>
+
+    <section id="about" class="about-section container">
+        <h2 class="section-title">O nas</h2>
+        <div class="about-grid">
+            <div class="about-text">
+                <p>
+                    W VIWID.PL łączymy **kreatywność z precyzją**. Nasze podejście opiera się na głębokim zrozumieniu celów biznesowych klienta i przekształcaniu ich w **piękne, funkcjonalne i skuteczne projekty**. Każde zlecenie traktujemy jako unikalne wyzwanie, w którym kluczem jest dbałość o detale i innowacyjność.
+                </p>
+                <p>
+                    Specjalizujemy się w projektowaniu stron, które nie tylko wyglądają niesamowicie, ale także działają bez zarzutu na każdym urządzeniu.
+                </p>
+            </div>
+            <div class="about-image">
+                <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="Creative work process">
+            </div>
+        </div>
+    </section>
+
+    <section id="projects" class="projects-section">
+        <div class="container">
+            <h2 class="section-title">Projekty</h2>
+            <div class="projects-grid">
+                <div class="project-card booklly-card">
+                    <div class="project-info">
+                        <h3>BOOKLLY</h3>
+                        <p>Zaawansowana platforma rezerwacyjna, która upraszcza proces planowania.</p>
+                        <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
+                    </div>
+                    <div class="project-image">
+                        <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="BOOKLLY">
+                    </div>
+                </div>
+                <div class="project-card coming-soon-card">
+                    <div class="project-info">
+                        <h3>Wkrótce...</h3>
+                        <p>Tworzymy coś nowego. Bądź na bieżąco!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section container">
+        <h2 class="section-title">Kontakt</h2>
+        <form id="contact-form" class="contact-form">
+            <div class="form-group">
+                <label for="name">Imię i nazwisko</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Adres e-mail</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="message">Wiadomość</label>
+                <textarea id="message" name="message" rows="5" required></textarea>
+            </div>
+            <button type="submit" class="submit-btn">Wyślij wiadomość</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2024 VIWID.PL. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+    <script>
+        // JavaScript Animations - All in one place
+        gsap.registerPlugin(ScrollTrigger);
+
+        // Hero title animation
+        gsap.from(".hero-title", {
+            y: 50,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power3.out",
+        });
+
+        // Hero subtitle animation with a slight delay
+        gsap.from(".hero-subtitle", {
+            y: 50,
+            opacity: 0,
+            duration: 1.5,
+            ease: "power3.out",
+            delay: 0.5,
+        });
+
+        // General section animation on scroll
+        const sections = document.querySelectorAll("section:not(.hero-section)");
+        sections.forEach(section => {
+            gsap.from(section, {
+                opacity: 0,
+                y: 50,
+                duration: 1,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none",
+                },
+            });
+        });
+
+        // Animate title and text on scroll for About section
+        const aboutTitle = document.querySelector(".about-section .section-title");
+        const aboutText = document.querySelector(".about-text");
+
+        gsap.from(aboutTitle, {
+            y: -50,
+            opacity: 0,
+            duration: 1,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: aboutTitle,
+                start: "top 90%",
+            },
+        });
+
+        gsap.from(aboutText, {
+            x: -50,
+            opacity: 0,
+            duration: 1,
+            delay: 0.3,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: aboutText,
+                start: "top 90%",
+            },
+        });
+
+        // Projects section animations
+        const projectCards = document.querySelectorAll(".project-card");
+        projectCards.forEach((card, index) => {
+            gsap.from(card, {
+                y: 50,
+                opacity: 0,
+                rotationY: index % 2 === 0 ? 30 : -30,
+                duration: 1,
+                ease: "back.out(1.7)",
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none none",
+                },
+            });
+        });
+
+        // Booklly link hover animation
+        const bookllyLink = document.querySelector(".project-link");
+        if (bookllyLink) {
+            bookllyLink.addEventListener('mouseenter', () => {
+                gsap.to(bookllyLink, {
+                    scale: 1.05,
+                    duration: 0.3
+                });
+            });
+            bookllyLink.addEventListener('mouseleave', () => {
+                gsap.to(bookllyLink, {
+                    scale: 1,
+                    duration: 0.3
+                });
+            });
+        }
+
+        // Contact form fields animation
+        const formFields = document.querySelectorAll(".form-group");
+        gsap.from(formFields, {
+            y: 20,
+            opacity: 0,
+            duration: 0.8,
+            stagger: 0.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: "#contact-form",
+                start: "top 80%",
+            },
+        });
+
+        // Submit button animation
+        const submitBtn = document.querySelector(".submit-btn");
+        if (submitBtn) {
+            submitBtn.addEventListener('mouseenter', () => {
+                gsap.to(submitBtn, {
+                    scale: 1.05,
+                    duration: 0.3
+                });
+            });
+            submitBtn.addEventListener('mouseleave', () => {
+                gsap.to(submitBtn, {
+                    scale: 1,
+                    duration: 0.3
+                });
+            });
+        }
+    </script>
+</body>
+</html>
