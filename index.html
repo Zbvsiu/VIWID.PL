@@ -88,7 +88,7 @@
 
         /* Hero Section */
         .hero-section {
-            position: relative; /* Potrzebne dla canvasa */
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -96,7 +96,7 @@
             min-height: 90vh;
             padding: 80px 0;
             background-color: var(--light-bg);
-            overflow: hidden; /* Ważne, żeby cząsteczki nie wychodziły poza sekcję */
+            overflow: hidden;
         }
 
         #particle-canvas {
@@ -110,7 +110,7 @@
 
         .hero-content {
             position: relative;
-            z-index: 1; /* Kontent nad cząsteczkami */
+            z-index: 1;
         }
 
         .hero-title {
@@ -155,11 +155,12 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr 1fr;
+            grid-template-columns: 1fr; /* Zmieniono na 1 kolumnę */
             gap: 60px;
             align-items: center;
+            text-align: center; /* Wyśrodkowanie tekstu */
         }
-
+        
         .about-text p {
             margin-bottom: 20px;
             font-size: 1.1rem;
@@ -169,13 +170,6 @@
         .about-text strong {
             color: var(--accent-color);
             font-weight: 600;
-        }
-
-        .about-image img {
-            width: 100%;
-            border-radius: 10px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-            transform: scale(0.95); /* Initial smaller size for animation */
         }
 
         /* Projects Section */
@@ -219,6 +213,15 @@
             color: var(--primary-color);
             margin-bottom: 10px;
         }
+        
+        /* Zmieniono na obrazek */
+        .booklly-logo {
+            width: 180px;
+            margin-bottom: 15px;
+        }
+        .booklly-logo img {
+            width: 100%;
+        }
 
         .project-info p {
             color: #888;
@@ -241,24 +244,14 @@
         }
 
         .project-image {
-            width: 200px;
+            width: 150px; /* Nowa szerokość dla B */
             margin-left: 50px;
             text-align: center;
-            perspective: 1000px; /* Dla efektu 3D */
         }
 
         .project-image img {
             width: 100%;
             display: block;
-            transform: rotateY(15deg) scale(0.95); /* Początkowa delikatna rotacja */
-            transform-origin: center right;
-            transition: transform 0.5s ease-in-out;
-            box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
-        }
-
-        .project-card:hover .project-image img {
-            transform: rotateY(0deg) scale(1); /* Reset na hoverze */
-            box-shadow: 0 0 30px rgba(0,0,0,0.2);
         }
 
         .coming-soon-card {
@@ -282,18 +275,13 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             nav ul {
-                display: none; /* Hide navigation on mobile for simplicity */
+                display: none;
             }
 
             .about-grid {
                 grid-template-columns: 1fr;
             }
             
-            .about-image {
-                order: -1;
-                margin-bottom: 40px;
-            }
-
             .project-card {
                 flex-direction: column;
             }
@@ -339,9 +327,6 @@
                     Specjalizujemy się w projektowaniu stron, które nie tylko wyglądają niesamowicie, ale także działają bez zarzutu na każdym urządzeniu.
                 </p>
             </div>
-            <div class="about-image">
-                <img src="https://via.placeholder.com/600x400/FFF8F0?text=About+Us+Image" alt="Creative work process">
-            </div>
         </div>
     </section>
 
@@ -351,12 +336,14 @@
             <div class="projects-grid">
                 <div class="project-card booklly-card">
                     <div class="project-info">
-                        <h3>BOOKLLY</h3>
+                        <div class="booklly-logo">
+                            <img src="https://i.ibb.co/L5rK5Q5/booklly.png" alt="BOOKLLY logo">
+                        </div>
                         <p>Zaawansowana platforma rezerwacyjna, która upraszcza proces planowania.</p>
                         <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
                     </div>
                     <div class="project-image">
-                        <img src="https://i.ibb.co/CBy126X/booklly-logo.png" alt="BOOKLLY">
+                        <img src="https://i.ibb.co/M9F504m/B.png" alt="BOOKLLY B logo">
                     </div>
                 </div>
                 <div class="project-card coming-soon-card">
@@ -444,17 +431,6 @@
                 start: "top 80%",
             },
         });
-        gsap.from(".about-image img", {
-            x: 50,
-            opacity: 0,
-            scale: 0.8,
-            duration: 1.2,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".about-image",
-                start: "top 80%",
-            },
-        });
 
         // Projects section - cards animation
         gsap.from(".projects-section .section-title", {
@@ -477,6 +453,18 @@
                 trigger: ".projects-grid",
                 start: "top 80%",
             },
+        });
+        
+        // Project card image animation on hover
+        const bookllyCard = document.querySelector('.booklly-card');
+        const projectImage = document.querySelector('.project-image img');
+        
+        bookllyCard.addEventListener('mouseenter', () => {
+          gsap.to(projectImage, { scale: 1.1, duration: 0.4, ease: "power2.out" });
+        });
+
+        bookllyCard.addEventListener('mouseleave', () => {
+          gsap.to(projectImage, { scale: 1, duration: 0.4, ease: "power2.out" });
         });
 
         // Footer animation
@@ -506,7 +494,7 @@
             const resizeCanvas = () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                initParticles(); // Reinitialize particles on resize
+                initParticles();
             };
 
             window.addEventListener('resize', resizeCanvas);
@@ -547,7 +535,6 @@
                     this.x += this.directionX;
                     this.y += this.directionY;
 
-                    // Mouse interaction
                     if (mouse.x !== null && mouse.y !== null) {
                         let dx = mouse.x - this.x;
                         let dy = mouse.y - this.y;
@@ -580,9 +567,9 @@
                     let size = (Math.random() * 5) + 1;
                     let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
                     let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-                    let directionX = (Math.random() * 0.4) - 0.2; // -0.2 to 0.2
-                    let directionY = (Math.random() * 0.4) - 0.2; // -0.2 to 0.2
-                    let color = 'rgba(255, 127, 0, 0.3)'; // Pomarańczowy z przezroczystością
+                    let directionX = (Math.random() * 0.4) - 0.2;
+                    let directionY = (Math.random() * 0.4) - 0.2;
+                    let color = 'rgba(255, 127, 0, 0.3)';
                     particles.push(new Particle(x, y, directionX, directionY, size, color));
                 }
             }
@@ -604,7 +591,7 @@
                         let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) +
                             ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
                         if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                            opacityValue = 1 - (distance / 20000); // Adjust this value for line visibility
+                            opacityValue = 1 - (distance / 20000);
                             ctx.strokeStyle = `rgba(255, 127, 0, ${opacityValue})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
