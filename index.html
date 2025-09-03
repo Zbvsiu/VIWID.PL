@@ -88,7 +88,7 @@
 
         /* Hero Section */
         .hero-section {
-            position: relative;
+            position: relative; /* Potrzebne dla canvasa */
             display: flex;
             align-items: center;
             justify-content: center;
@@ -96,7 +96,7 @@
             min-height: 90vh;
             padding: 80px 0;
             background-color: var(--light-bg);
-            overflow: hidden;
+            overflow: hidden; /* Ważne, żeby cząsteczki nie wychodziły poza sekcję */
         }
 
         #particle-canvas {
@@ -110,7 +110,7 @@
 
         .hero-content {
             position: relative;
-            z-index: 1;
+            z-index: 1; /* Kontent nad cząsteczkami */
         }
 
         .hero-title {
@@ -155,12 +155,11 @@
 
         .about-grid {
             display: grid;
-            grid-template-columns: 1fr; /* Zmieniono na 1 kolumnę */
+            grid-template-columns: 1fr 1fr;
             gap: 60px;
             align-items: center;
-            text-align: center; /* Wyśrodkowanie tekstu */
         }
-        
+
         .about-text p {
             margin-bottom: 20px;
             font-size: 1.1rem;
@@ -170,6 +169,13 @@
         .about-text strong {
             color: var(--accent-color);
             font-weight: 600;
+        }
+
+        .about-image img {
+            width: 100%;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transform: scale(0.95); /* Initial smaller size for animation */
         }
 
         /* Projects Section */
@@ -213,15 +219,6 @@
             color: var(--primary-color);
             margin-bottom: 10px;
         }
-        
-        /* Zmieniono na obrazek */
-        .booklly-logo {
-            width: 180px;
-            margin-bottom: 15px;
-        }
-        .booklly-logo img {
-            width: 100%;
-        }
 
         .project-info p {
             color: #888;
@@ -244,14 +241,24 @@
         }
 
         .project-image {
-            width: 150px; /* Nowa szerokość dla B */
+            width: 200px;
             margin-left: 50px;
             text-align: center;
+            perspective: 1000px; /* Dla efektu 3D */
         }
 
         .project-image img {
             width: 100%;
             display: block;
+            transform: rotateY(15deg) scale(0.95); /* Początkowa delikatna rotacja */
+            transform-origin: center right;
+            transition: transform 0.5s ease-in-out;
+            box-shadow: 5px 5px 20px rgba(0,0,0,0.1);
+        }
+
+        .project-card:hover .project-image img {
+            transform: rotateY(0deg) scale(1); /* Reset na hoverze */
+            box-shadow: 0 0 30px rgba(0,0,0,0.2);
         }
 
         .coming-soon-card {
@@ -275,13 +282,18 @@
         /* Responsive Design */
         @media (max-width: 768px) {
             nav ul {
-                display: none;
+                display: none; /* Hide navigation on mobile for simplicity */
             }
 
             .about-grid {
                 grid-template-columns: 1fr;
             }
             
+            .about-image {
+                order: -1;
+                margin-bottom: 40px;
+            }
+
             .project-card {
                 flex-direction: column;
             }
@@ -327,6 +339,9 @@
                     Specjalizujemy się w projektowaniu stron, które nie tylko wyglądają niesamowicie, ale także działają bez zarzutu na każdym urządzeniu.
                 </p>
             </div>
+            <div class="about-image">
+                <img src="https://via.placeholder.com/600x400/FFF8F0?text=About+Us+Image" alt="Creative work process">
+            </div>
         </div>
     </section>
 
@@ -336,14 +351,12 @@
             <div class="projects-grid">
                 <div class="project-card booklly-card">
                     <div class="project-info">
-                        <div class="booklly-logo">
-                            <img src="https://i.ibb.co/L5rK5Q5/booklly.png" alt="BOOKLLY logo">
-                        </div>
+                        <h3>BOOKLLY</h3>
                         <p>Zaawansowana platforma rezerwacyjna, która upraszcza proces planowania.</p>
                         <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
                     </div>
                     <div class="project-image">
-                        <img src="https://i.ibb.co/M9F504m/B.png" alt="BOOKLLY B logo">
+                        <img src="https://cdn.discordapp.com/attachments/1342942472661372950/1412906770082566324/juperglupicwel_10.png?ex=68b9ff78&is=68b8adf8&hm=330ab2c1ba4a75708136c01e383365106f89614b1c22f3d6812cfb2a5f2c9824&" alt="BOOKLLY">
                     </div>
                 </div>
                 <div class="project-card coming-soon-card">
@@ -431,6 +444,17 @@
                 start: "top 80%",
             },
         });
+        gsap.from(".about-image img", {
+            x: 50,
+            opacity: 0,
+            scale: 0.8,
+            duration: 1.2,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".about-image",
+                start: "top 80%",
+            },
+        });
 
         // Projects section - cards animation
         gsap.from(".projects-section .section-title", {
@@ -453,18 +477,6 @@
                 trigger: ".projects-grid",
                 start: "top 80%",
             },
-        });
-        
-        // Project card image animation on hover
-        const bookllyCard = document.querySelector('.booklly-card');
-        const projectImage = document.querySelector('.project-image img');
-        
-        bookllyCard.addEventListener('mouseenter', () => {
-          gsap.to(projectImage, { scale: 1.1, duration: 0.4, ease: "power2.out" });
-        });
-
-        bookllyCard.addEventListener('mouseleave', () => {
-          gsap.to(projectImage, { scale: 1, duration: 0.4, ease: "power2.out" });
         });
 
         // Footer animation
@@ -494,7 +506,7 @@
             const resizeCanvas = () => {
                 canvas.width = window.innerWidth;
                 canvas.height = window.innerHeight;
-                initParticles();
+                initParticles(); // Reinitialize particles on resize
             };
 
             window.addEventListener('resize', resizeCanvas);
@@ -535,6 +547,7 @@
                     this.x += this.directionX;
                     this.y += this.directionY;
 
+                    // Mouse interaction
                     if (mouse.x !== null && mouse.y !== null) {
                         let dx = mouse.x - this.x;
                         let dy = mouse.y - this.y;
@@ -567,9 +580,9 @@
                     let size = (Math.random() * 5) + 1;
                     let x = (Math.random() * ((canvas.width - size * 2) - (size * 2)) + size * 2);
                     let y = (Math.random() * ((canvas.height - size * 2) - (size * 2)) + size * 2);
-                    let directionX = (Math.random() * 0.4) - 0.2;
-                    let directionY = (Math.random() * 0.4) - 0.2;
-                    let color = 'rgba(255, 127, 0, 0.3)';
+                    let directionX = (Math.random() * 0.4) - 0.2; // -0.2 to 0.2
+                    let directionY = (Math.random() * 0.4) - 0.2; // -0.2 to 0.2
+                    let color = 'rgba(255, 127, 0, 0.3)'; // Pomarańczowy z przezroczystością
                     particles.push(new Particle(x, y, directionX, directionY, size, color));
                 }
             }
@@ -591,7 +604,7 @@
                         let distance = ((particles[a].x - particles[b].x) * (particles[a].x - particles[b].x)) +
                             ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
                         if (distance < (canvas.width / 7) * (canvas.height / 7)) {
-                            opacityValue = 1 - (distance / 20000);
+                            opacityValue = 1 - (distance / 20000); // Adjust this value for line visibility
                             ctx.strokeStyle = `rgba(255, 127, 0, ${opacityValue})`;
                             ctx.lineWidth = 1;
                             ctx.beginPath();
