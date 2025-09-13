@@ -148,27 +148,27 @@
         }
 
          /* About Section */
-    .about-section {
-        background-color: var(--secondary-color);
-        padding: 100px 0;
-        text-align: center; /* Wyśrodkowanie całej sekcji */
-    }
-    
-    .about-text {
-        max-width: 800px;
-        margin: 0 auto;
-    }
-    
-    .about-text p {
-        margin-bottom: 20px;
-        font-size: 1.1rem;
-        line-height: 1.7;
-    }
+        .about-section {
+            background-color: var(--secondary-color);
+            padding: 100px 0;
+            text-align: center; /* Wyśrodkowanie całej sekcji */
+        }
+        
+        .about-text {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .about-text p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
 
-    .about-text strong {
-        color: var(--accent-color);
-        font-weight: 600;
-    }
+        .about-text strong {
+            color: var(--accent-color);
+            font-weight: 600;
+        }
 
         /* Projects Section */
         .projects-section {
@@ -252,11 +252,28 @@
             transform: rotateY(0deg) scale(1); /* Reset na hoverze */
             box-shadow: 0 0 30px rgba(0,0,0,0.2);
         }
+        
+        /* Contact Section */
+        .contact-section {
+            background-color: var(--secondary-color);
+            padding: 100px 0;
+            text-align: center;
+        }
 
-        .coming-soon-card {
-            background-color: #f0f0f0;
-            opacity: 0.7;
-            pointer-events: none;
+        .contact-info {
+            margin-top: 20px;
+        }
+
+        .contact-info a {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent-color);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-info a:hover {
+            color: var(--primary-color);
         }
 
         /* Footer */
@@ -304,6 +321,7 @@
             <ul>
                 <li><a href="#about">O nas</a></li>
                 <li><a href="#projects">Projekty</a></li>
+                <li><a href="#contact">Kontakt</a></li>
             </ul>
         </nav>
     </header>
@@ -342,20 +360,24 @@
             <div class="projects-grid">
                 <div class="project-card booklly-card">
                     <div class="project-info">
-                        <img src="https://cdn.discordapp.com/attachments/1342942472661372950/1412906773261582456/Nowy_projekt_3.png?ex=68b9ff79&is=68b8adf9&hm=3c6099c309edfd283d99192cdc751bdf9ead3b5eb3690528c06173490b79a84b&" alt="BOOKLLY">
+                        <h3>Booklly</h3>
                         <p>Zaawansowana strona internetowa, która pomoże prowadzić tobie swój pierwszy biznes online.</p>
                         <a href="https://booklly.pl" target="_blank" class="project-link">Odwiedź stronę</a>
                     </div>
                     <div class="project-image">
-                        <img src="https://cdn.discordapp.com/attachments/1342942472661372950/1412906770082566324/juperglupicwel_10.png?ex=68b9ff78&is=68b8adf8&hm=330ab2c1ba4a75708136c01e383365106f89614b1c22f3d6812cfb2a5f2c9824&" alt="BOOKLLY">
+                        <img src="https://media.discordapp.net/attachments/1342942472661372950/1412906770082566324/juperglupicwel_10.png?ex=68c685b8&is=68c53438&hm=16b07a71383e888e8dfa59f7aea3a5d0bad99a95371161bdc875bd19ee1ca99e&=&format=webp&quality=lossless" alt="Logo projektu JUPER">
                     </div>
                 </div>
-                <div class="project-card coming-soon-card">
-                    <div class="project-info">
-                        <h3>Wkrótce...</h3>
-                        <p>Tworzymy coś nowego. Bądź na bieżąco!</p>
-                    </div>
-                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2 class="section-title"><span>Kontakt</span></h2>
+            <div class="contact-info">
+                <p>Masz pomysł na projekt lub potrzebujesz wsparcia? Porozmawiajmy!</p>
+                <a href="mailto:biznes@viwid.pl">biznes@viwid.pl</a>
             </div>
         </div>
     </section>
@@ -613,20 +635,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
