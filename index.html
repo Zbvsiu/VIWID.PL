@@ -10,7 +10,7 @@
         :root {
             --primary-color: #f7f7f7;
             --secondary-color: #2c2c2c;
-            --accent-color: #9C27B0; /* Purple */
+            --accent-color: #9C27B0; /* Fioletowy */
             --light-bg: #121212;
             --dark-bg: #0d0d0d;
             --font-family: 'Montserrat', sans-serif;
@@ -192,7 +192,7 @@
             top: 0;
             right: 0;
             height: 100%;
-            width: 300px;
+            width: clamp(250px, 70vw, 400px);
             background-color: var(--light-bg);
             box-shadow: -5px 0 15px rgba(0, 0, 0, 0.2);
             transform: translateX(100%);
@@ -371,7 +371,7 @@
             background-color: var(--light-bg);
             border-radius: 10px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            padding: 40px;
+            padding: clamp(20px, 4vw, 40px);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
             position: relative;
             overflow: hidden;
@@ -391,7 +391,7 @@
         }
 
         .project-info h3 {
-            font-size: 2rem;
+            font-size: clamp(1.5rem, 3vw, 2rem);
             font-weight: 600;
             color: var(--primary-color);
             margin-bottom: 10px;
@@ -399,6 +399,7 @@
 
         .project-info p {
             color: rgba(255, 255, 255, 0.6);
+            font-size: clamp(0.9rem, 1.5vw, 1rem);
         }
         
         .project-link {
@@ -419,8 +420,8 @@
         }
 
         .project-image {
-            max-width: 250px;
-            margin-left: 50px;
+            max-width: clamp(150px, 20vw, 250px);
+            margin-left: clamp(20px, 5vw, 50px);
             text-align: center;
             perspective: 1000px;
         }
@@ -481,16 +482,16 @@
             .project-card {
                 flex-direction: column;
                 text-align: center;
-                padding: 30px;
+                gap: 30px;
+            }
+
+            .project-image {
+                margin: 0;
+                max-width: 180px;
             }
 
             .project-info h3 {
-                font-size: 1.5rem;
-            }
-            
-            .project-image {
-                margin: 30px 0 0 0;
-                max-width: 180px;
+                font-size: clamp(1.5rem, 4vw, 2rem);
             }
         }
 
@@ -501,6 +502,9 @@
             .sidebar {
                 width: 100%;
                 padding-top: 80px;
+            }
+            .project-image {
+                max-width: 150px;
             }
         }
     </style>
@@ -803,7 +807,7 @@
                             ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
                         if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                             opacityValue = 1 - (distance / 20000);
-                            ctx.strokeStyle = `rgba(156, 39, 176, ${opacityValue})`; /* Purple color for lines */
+                            ctx.strokeStyle = `rgba(156, 39, 176, ${opacityValue})`; /* Fioletowy kolor dla linii */
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particles[a].x, particles[a].y);
