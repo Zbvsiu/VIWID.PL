@@ -478,8 +478,21 @@
             overflow: hidden;
         }
 
-        /* Responsive Design */
+        /* Responsive Design - Media Queries */
+        /* Changes for smaller screens (up to 768px) */
         @media (max-width: 768px) {
+            .hero-section {
+                padding: 60px 0;
+            }
+            
+            .hero-title {
+                font-size: clamp(2rem, 8vw, 4rem); /* Zwiększono rozmiar dla lepszej czytelności na urządzeniach mobilnych */
+            }
+
+            .hero-subtitle {
+                font-size: clamp(1rem, 3vw, 1.2rem);
+            }
+
             .project-card {
                 flex-direction: column;
                 text-align: center;
@@ -496,6 +509,7 @@
             }
         }
 
+        /* Changes for very small screens (up to 480px) */
         @media (max-width: 480px) {
             .logo {
                 font-size: 1.5rem;
