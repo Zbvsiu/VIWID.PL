@@ -10,7 +10,7 @@
         :root {
             --primary-color: #f7f7f7;
             --secondary-color: #2c2c2c;
-            --accent-color: #9C27B0; /* Fioletowy */
+            --accent-color: #9C27B0; /* Purple */
             --light-bg: #121212;
             --dark-bg: #0d0d0d;
             --font-family: 'Montserrat', sans-serif;
@@ -285,7 +285,6 @@
             color: var(--primary-color);
         }
 
-        /* NEW: Delikatniejsza poświata dla nagłówka */
         .hero-title.glowing-text .highlight {
             animation: subtle-pulse-glow 2s infinite alternate;
         }
@@ -420,7 +419,7 @@
         }
 
         .project-image {
-            width: 200px;
+            max-width: 250px;
             margin-left: 50px;
             text-align: center;
             perspective: 1000px;
@@ -428,6 +427,7 @@
 
         .project-image img {
             width: 100%;
+            height: auto;
             display: block;
             transform: rotateY(15deg) scale(0.95);
             transform-origin: center right;
@@ -480,10 +480,27 @@
         @media (max-width: 768px) {
             .project-card {
                 flex-direction: column;
+                text-align: center;
+                padding: 30px;
             }
 
+            .project-info h3 {
+                font-size: 1.5rem;
+            }
+            
             .project-image {
-                margin: 40px 0 0 0;
+                margin: 30px 0 0 0;
+                max-width: 180px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo {
+                font-size: 1.5rem;
+            }
+            .sidebar {
+                width: 100%;
+                padding-top: 80px;
             }
         }
     </style>
@@ -786,7 +803,7 @@
                             ((particles[a].y - particles[b].y) * (particles[a].y - particles[b].y));
                         if (distance < (canvas.width / 7) * (canvas.height / 7)) {
                             opacityValue = 1 - (distance / 20000);
-                            ctx.strokeStyle = `rgba(156, 39, 176, ${opacityValue})`; /* Fioletowy kolor dla linii */
+                            ctx.strokeStyle = `rgba(156, 39, 176, ${opacityValue})`; /* Purple color for lines */
                             ctx.lineWidth = 1;
                             ctx.beginPath();
                             ctx.moveTo(particles[a].x, particles[a].y);
