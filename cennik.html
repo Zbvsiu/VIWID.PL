@@ -8,16 +8,19 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
+        html { scroll-behavior: smooth; }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #050505;
             color: white;
             user-select: none;
+            animation: fadeIn 0.8s ease-in-out;
         }
-        .box-glow:hover {
-            box-shadow: 0 0 30px rgba(204, 0, 0, 0.4);
-            border-color: #cc0000;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
+        .box-glow:hover { box-shadow: 0 0 30px rgba(204, 0, 0, 0.4); border-color: #cc0000; }
         .bg-animated { background: radial-gradient(circle at top, #1a0000 0%, #000000 100%); }
         .glass-card {
             background: rgba(255, 255, 255, 0.03);
@@ -30,7 +33,7 @@
 
     <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-red-900/30">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-black tracking-tighter text-white">VIWID<span class="text-red-600">.PL</span></a>
+            <a href="index.html" class="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition">VIWID<span class="text-red-600">.PL</span></a>
             <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest">
                 <a href="index.html#portfolio" class="hover:text-red-500 transition">Portfolio</a>
                 <a href="cennik.html" class="text-red-500 font-bold transition">Cennik</a>
@@ -48,7 +51,6 @@
             <p class="text-center text-gray-400 mb-16">Wybierz pakiet idealny dla Twojego kanału</p>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-                
                 <div class="glass-card p-8 rounded-xl border border-gray-800 hover:border-gray-500 transition box-glow flex flex-col">
                     <h3 class="text-xl font-bold text-gray-400 mb-4">POJEDYNCZY ELEMENT</h3>
                     <p class="text-4xl font-bold mb-6">30 PLN<span class="text-sm font-normal text-gray-500">/szt</span></p>
@@ -84,7 +86,6 @@
                     </ul>
                     <a href="https://discord.gg/4fAJTXZmba" class="block w-full text-center border border-white py-3 rounded hover:bg-white hover:text-black transition font-bold">Napisz DM</a>
                 </div>
-
             </div>
             
             <div class="mt-16 text-center">
@@ -95,9 +96,12 @@
 
     <footer class="bg-[#050505] border-t border-gray-900 py-10 text-center text-sm text-gray-600">
         <div class="container mx-auto px-4">
+            <div class="mb-4">
+                <a href="regulamin.html" class="hover:text-white mx-2 transition">Regulamin</a> | 
+                <a href="regulamin.html#privacy" class="hover:text-white mx-2 transition">Polityka Prywatności</a>
+            </div>
             <p>&copy; 2024 VIWID STUDIO. Wszystkie prawa zastrzeżone.</p>
         </div>
     </footer>
-
 </body>
 </html>
