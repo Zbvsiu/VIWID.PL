@@ -10,13 +10,22 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 
     <style>
+        html {
+            scroll-behavior: smooth;
+        }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #050505;
             color: white;
             overflow-x: hidden;
-            /* Blokada zaznaczania tekstu/zdjęć globalnie */
             user-select: none; 
+            /* Animacja płynnego wejścia */
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* Custom Scrollbar */
@@ -37,20 +46,21 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
-        /* Styl dla wymiarów po najechaniu */
         .dim-overlay {
             background: rgba(0, 0, 0, 0.85);
             backdrop-filter: blur(4px);
         }
     </style>
 </head>
-<body class="bg-animated" oncontextmenu="return false;"> <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-red-900/30">
+<body class="bg-animated" oncontextmenu="return false;">
+
+    <nav class="fixed w-full z-50 bg-black/80 backdrop-blur-md border-b border-red-900/30 transition-all duration-300">
         <div class="container mx-auto px-6 py-4 flex justify-between items-center">
-            <a href="index.html" class="text-3xl font-black tracking-tighter text-white">VIWID<span class="text-red-600">.PL</span></a>
+            <a href="index.html" class="text-3xl font-black tracking-tighter text-white hover:opacity-80 transition">VIWID<span class="text-red-600">.PL</span></a>
             <div class="hidden md:flex space-x-8 text-sm font-bold uppercase tracking-widest">
-                <a href="#portfolio" class="hover:text-red-500 transition">Portfolio</a>
-                <a href="cennik.html" class="hover:text-red-500 transition">Cennik</a> 
-                <a href="#contact" class="hover:text-red-500 transition">Kontakt</a>
+                <a href="#portfolio" class="hover:text-red-500 transition duration-300">Portfolio</a>
+                <a href="cennik.html" class="hover:text-red-500 transition duration-300">Cennik</a>
+                <a href="#contact" class="hover:text-red-500 transition duration-300">Kontakt</a>
             </div>
             <a href="https://discord.gg/4fAJTXZmba" target="_blank" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold transition transform hover:scale-105 shadow-lg shadow-red-900/50">
                 <i class="fa-brands fa-discord mr-2"></i> Zamów
@@ -101,7 +111,6 @@
                 </div>
 
                 <div class="bg-[#0a0a0a] p-4 rounded-xl border border-gray-800 shadow-2xl">
-                    
                     <div class="mb-4 overflow-hidden rounded-lg relative group/item">
                         <img src="banerkick1.jpg" alt="Kick Banner" draggable="false" class="w-full h-auto object-cover select-none pointer-events-none md:pointer-events-auto">
                         <div class="dim-overlay absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition duration-300">
@@ -110,34 +119,30 @@
                     </div>
                     
                     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        
                         <div class="relative group/item rounded-lg overflow-hidden">
                             <img src="BIO_TIKTOK.png" draggable="false" alt="TikTok Panel" class="w-full shadow-lg select-none">
                             <div class="dim-overlay absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition duration-300">
                                 <span class="text-white font-mono font-bold text-sm">320 x 160 px</span>
                             </div>
                         </div>
-
                         <div class="relative group/item rounded-lg overflow-hidden">
                             <img src="BIO_DISCORD.png" draggable="false" alt="Discord Panel" class="w-full shadow-lg select-none">
                             <div class="dim-overlay absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition duration-300">
                                 <span class="text-white font-mono font-bold text-sm">320 x 160 px</span>
                             </div>
                         </div>
-
                         <div class="relative group/item rounded-lg overflow-hidden">
                             <img src="BIO_DONATE.png" draggable="false" alt="Donate Panel" class="w-full shadow-lg select-none">
                             <div class="dim-overlay absolute inset-0 flex items-center justify-center opacity-0 group-hover/item:opacity-100 transition duration-300">
                                 <span class="text-white font-mono font-bold text-sm">320 x 160 px</span>
                             </div>
                         </div>
-
                     </div>
                 </div>
 
                 <div class="mt-8 text-center">
-                    <a href="https://discord.gg/4fAJTXZmba" class="inline-block bg-white text-black hover:bg-red-600 hover:text-white px-10 py-4 rounded font-bold uppercase tracking-widest transition duration-300">
-                        Zamów podobny
+                    <a href="https://discord.gg/4fAJTXZmba" class="inline-block bg-white text-black hover:bg-red-600 hover:text-white px-12 py-4 rounded font-bold uppercase tracking-widest transition duration-300 shadow-[0_0_15px_rgba(255,255,255,0.3)] hover:shadow-[0_0_25px_rgba(204,0,0,0.6)]">
+                        KUP
                     </a>
                 </div>
             </div>
@@ -162,7 +167,6 @@
                     <i class="fa-solid fa-envelope text-2xl"></i>
                 </a>
             </div>
-
             <p class="text-gray-500">
                 Masz pytania? Pisz na: <a href="mailto:biznes@viwid.pl" class="text-white font-bold hover:text-red-500">biznes@viwid.pl</a>
             </p>
@@ -172,8 +176,8 @@
     <footer class="bg-[#050505] border-t border-gray-900 py-10 text-center text-sm text-gray-600">
         <div class="container mx-auto px-4">
             <div class="mb-4">
-                <a href="#" class="hover:text-white mx-2 transition">Regulamin</a> | 
-                <a href="#" class="hover:text-white mx-2 transition">Polityka Prywatności</a>
+                <a href="regulamin.html" class="hover:text-white mx-2 transition">Regulamin</a> | 
+                <a href="regulamin.html#privacy" class="hover:text-white mx-2 transition">Polityka Prywatności</a>
             </div>
             <p>&copy; 2024 VIWID STUDIO. Wszystkie prawa zastrzeżone.</p>
         </div>
@@ -182,11 +186,7 @@
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
         AOS.init({ once: true, offset: 100, duration: 800 });
-        
-        // Dodatkowe zabezpieczenie przed przeciąganiem zdjęć
-        document.querySelectorAll('img').forEach(img => {
-            img.addEventListener('dragstart', e => e.preventDefault());
-        });
+        document.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
     </script>
 </body>
 </html>
