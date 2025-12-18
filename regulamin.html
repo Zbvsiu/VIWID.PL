@@ -6,78 +6,152 @@
     <title>Regulamin & Prywatność | VIWID.PL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    
     <style>
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #050505;
-            color: #ccc;
-            line-height: 1.6;
-            animation: fadeIn 0.8s ease-in-out;
+            color: #d1d5db;
+            line-height: 1.8;
+            overflow-x: hidden;
         }
-        @keyframes fadeIn {
-            from { opacity: 0; } to { opacity: 1; }
+        
+        /* Tło i efekty */
+        .bg-animated { background: radial-gradient(circle at top center, #1a0000 0%, #050505 80%); }
+        .glass-panel {
+            background: rgba(20, 20, 20, 0.6);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 50, 50, 0.1);
+            box-shadow: 0 0 40px rgba(0, 0, 0, 0.5);
         }
-        h1, h2, h3 { color: white; font-weight: bold; }
-        .legal-container { max-width: 900px; margin: 0 auto; padding: 40px 20px; }
-        .section-title { color: #cc0000; margin-top: 40px; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px; }
-        .back-link { position: fixed; top: 20px; left: 20px; background: rgba(0,0,0,0.8); padding: 10px 20px; border-radius: 30px; border: 1px solid #333; color: white; text-decoration: none; z-index: 100; font-size: 14px; }
-        .back-link:hover { border-color: #cc0000; color: #cc0000; }
+        
+        /* Typografia */
+        h1 { text-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+        .section-title {
+            color: #ef4444; /* red-500 */
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 40px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ef4444;
+            padding-left: 15px;
+        }
+        
+        /* Przycisk powrotu */
+        .back-btn {
+            position: fixed;
+            top: 30px;
+            left: 30px;
+            z-index: 50;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(5px);
+            border: 1px solid #333;
+            color: white;
+            padding: 10px 25px;
+            border-radius: 999px;
+            font-size: 0.9rem;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        .back-btn:hover {
+            border-color: #ef4444;
+            color: #ef4444;
+            transform: translateX(-5px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #050505; }
+        ::-webkit-scrollbar-thumb { background: #7f1d1d; border-radius: 4px; }
     </style>
 </head>
-<body oncontextmenu="return false;">
+<body class="bg-animated min-h-screen py-20" oncontextmenu="return false;">
 
-    <a href="index.html" class="back-link">← Wróć do strony głównej</a>
+    <a href="index.html" class="back-btn">← WRÓĆ</a>
 
-    <div class="legal-container">
-        <h1 class="text-4xl md:text-5xl text-center mb-10">REGULAMIN <br><span class="text-red-600">VIWID STUDIO</span></h1>
+    <div class="fixed top-0 left-0 w-full h-full pointer-events-none -z-10 overflow-hidden">
+        <div class="absolute top-[-10%] right-[-5%] w-[500px] h-[500px] bg-red-900/10 rounded-full blur-[100px]"></div>
+        <div class="absolute bottom-[-10%] left-[-5%] w-[600px] h-[600px] bg-red-900/10 rounded-full blur-[100px]"></div>
+    </div>
 
-        <div class="bg-[#111] p-8 rounded-xl border border-gray-800 shadow-2xl">
-            <h2 class="section-title">I. Postanowienia Ogólne</h2>
-            <p>1. Niniejszy regulamin określa zasady świadczenia usług graficznych przez studio VIWID.</p>
-            <p>2. Złożenie zamówienia jest równoznaczne z akceptacją niniejszego regulaminu.</p>
-            <p>3. Kontakt z wykonawcą odbywa się głównie poprzez platformę Discord lub e-mail: biznes@viwid.pl.</p>
-
-            <h2 class="section-title">II. Zamówienia i Realizacja</h2>
-            <p>1. Zamówienia przyjmowane są poprzez bezpośredni kontakt (Discord/Instagram).</p>
-            <p>2. Czas realizacji jest ustalany indywidualnie w zależności od skomplikowania projektu, zazwyczaj wynosi od 3 do 14 dni roboczych.</p>
-            <p>3. Klient ma prawo do określonej liczby poprawek ustalonej przed rozpoczęciem zlecenia. Dodatkowe poprawki są płatne.</p>
-
-            <h2 class="section-title">III. Płatności</h2>
-            <p>1. Płatności przyjmowane są z góry lub w systemie 50% zadatku przed rozpoczęciem pracy.</p>
-            <p>2. Akceptowane formy płatności: BLIK, Przelew, PayPal (lub inne ustalone na Discordzie).</p>
-            <p>3. W przypadku produktów cyfrowych (usługi graficzne), po przesłaniu gotowych plików nie przysługuje prawo do zwrotu pieniędzy ze względu na charakter świadczenia.</p>
-
-            <h2 class="section-title">IV. Prawa Autorskie</h2>
-            <p>1. Po opłaceniu zamówienia Klient otrzymuje licencję na wykorzystywanie grafik na swoich kanałach (Twitch, Kick, YT, Social Media).</p>
-            <p>2. Zabrania się odsprzedawania zakupionych projektów osobom trzecim bez zgody autora.</p>
-            <p>3. VIWID Studio zastrzega sobie prawo do prezentowania wykonanych prac w swoim portfolio (chyba że ustalono inaczej).</p>
-
-            <hr class="my-10 border-gray-800">
-
-            <div id="privacy">
-                <h1 class="text-3xl text-white text-center mb-6">POLITYKA PRYWATNOŚCI</h1>
-                
-                <h2 class="section-title">I. Administrator Danych</h2>
-                <p>Administratorem Twoich danych osobowych jest VIWID STUDIO. Kontakt w sprawie ochrony danych: biznes@viwid.pl.</p>
-
-                <h2 class="section-title">II. Cel Przetwarzania</h2>
-                <p>Dane (takie jak nick, e-mail) są przetwarzane wyłącznie w celu:</p>
-                <ul class="list-disc ml-6 mt-2 mb-4">
-                    <li>Realizacji zamówienia graficznego.</li>
-                    <li>Kontaktu z Klientem w sprawie poprawek i akceptacji projektu.</li>
-                </ul>
-
-                <h2 class="section-title">III. Pliki Cookies</h2>
-                <p>Strona VIWID.PL może wykorzystywać pliki cookies w celach statystycznych oraz do poprawnego działania witryny. Użytkownik może w każdej chwili wyłączyć cookies w swojej przeglądarce.</p>
-            </div>
+    <div class="container mx-auto px-4 max-w-4xl">
+        
+        <div class="text-center mb-16" data-aos="fade-down">
+            <h1 class="text-5xl md:text-6xl font-black text-white mb-4">DOKUMENTY <span class="text-red-600">PRAWNE</span></h1>
+            <p class="text-gray-500 uppercase tracking-widest text-sm">VIWID STUDIO © 2025</p>
         </div>
 
-        <div class="text-center mt-12 text-sm text-gray-600">
-            <p>Ostatnia aktualizacja: Grudzień 2024</p>
-            <p>&copy; 2024 VIWID STUDIO</p>
+        <div class="glass-panel rounded-2xl p-8 md:p-12 relative overflow-hidden" data-aos="fade-up">
+            <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-red-600 to-transparent"></div>
+
+            <div class="mb-16">
+                <div class="flex items-center mb-8">
+                    <i class="fa-solid fa-scale-balanced text-3xl text-red-600 mr-4"></i>
+                    <h2 class="text-3xl font-bold text-white">REGULAMIN</h2>
+                </div>
+
+                <h3 class="section-title">I. Postanowienia Ogólne</h3>
+                <p>1. Niniejszy regulamin określa zasady świadczenia usług graficznych przez studio VIWID.</p>
+                <p>2. Złożenie zamówienia jest równoznaczne z akceptacją niniejszego regulaminu.</p>
+                <p>3. Kontakt z wykonawcą odbywa się głównie poprzez platformę Discord lub e-mail: biznes@viwid.pl.</p>
+
+                <h3 class="section-title">II. Zamówienia i Realizacja</h3>
+                <p>1. Zamówienia przyjmowane są poprzez bezpośredni kontakt (Discord/Instagram).</p>
+                <p>2. Czas realizacji jest ustalany indywidualnie w zależności od skomplikowania projektu, zazwyczaj wynosi od 3 do 14 dni roboczych.</p>
+                <p>3. Klient ma prawo do określonej liczby poprawek ustalonej przed rozpoczęciem zlecenia. Dodatkowe poprawki są płatne.</p>
+
+                <h3 class="section-title">III. Płatności</h3>
+                <p>1. Płatności przyjmowane są z góry lub w systemie 50% zadatku przed rozpoczęciem pracy.</p>
+                <p>2. Akceptowane formy płatności: BLIK, Przelew, PayPal (lub inne ustalone na Discordzie).</p>
+                <p>3. W przypadku produktów cyfrowych (usługi graficzne), po przesłaniu gotowych plików nie przysługuje prawo do zwrotu pieniędzy ze względu na charakter świadczenia.</p>
+
+                <h3 class="section-title">IV. Prawa Autorskie</h3>
+                <p>1. Po opłaceniu zamówienia Klient otrzymuje licencję na wykorzystywanie grafik na swoich kanałach (Twitch, Kick, YT, Social Media).</p>
+                <p>2. Zabrania się odsprzedawania zakupionych projektów osobom trzecim bez zgody autora.</p>
+                <p>3. VIWID Studio zastrzega sobie prawo do prezentowania wykonanych prac w swoim portfolio (chyba że ustalono inaczej).</p>
+            </div>
+
+            <div class="h-px w-full bg-gradient-to-r from-transparent via-gray-700 to-transparent my-12"></div>
+
+            <div id="privacy" class="pt-4">
+                <div class="flex items-center mb-8">
+                    <i class="fa-solid fa-shield-halved text-3xl text-red-600 mr-4"></i>
+                    <h2 class="text-3xl font-bold text-white">POLITYKA PRYWATNOŚCI</h2>
+                </div>
+                
+                <h3 class="section-title">I. Administrator Danych</h3>
+                <p>Administratorem Twoich danych osobowych jest VIWID STUDIO. Kontakt w sprawie ochrony danych: biznes@viwid.pl.</p>
+
+                <h3 class="section-title">II. Cel Przetwarzania</h3>
+                <p>Dane (takie jak nick, e-mail) są przetwarzane wyłącznie w celu:</p>
+                <ul class="list-disc ml-6 mt-4 space-y-2 text-gray-400">
+                    <li><span class="text-gray-200">Realizacji zamówienia</span> graficznego.</li>
+                    <li><span class="text-gray-200">Kontaktu z Klientem</span> w sprawie poprawek i akceptacji projektu.</li>
+                </ul>
+
+                <h3 class="section-title">III. Pliki Cookies</h3>
+                <p>Strona VIWID.PL może wykorzystywać pliki cookies w celach statystycznych oraz do poprawnego działania witryny. Użytkownik może w każdej chwili wyłączyć cookies w swojej przeglądarce.</p>
+            </div>
+
+        </div>
+
+        <div class="text-center mt-12 text-sm text-gray-600 space-y-2">
+            <p>Ostatnia aktualizacja: <span class="text-gray-400 font-bold">Grudzień 2025</span></p>
+            <p>&copy; 2025 VIWID STUDIO. Wszelkie prawa zastrzeżone.</p>
         </div>
     </div>
 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        AOS.init({
+            once: true,
+            offset: 50,
+            duration: 800,
+        });
+    </script>
 </body>
 </html>
