@@ -8,7 +8,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    
     <script src="https://accounts.google.com/gsi/client" async defer></script>
+    
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
     <style>
         html { scroll-behavior: smooth; }
@@ -43,11 +46,7 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        .dim-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(4px);
-        }
-
+        
         /* ANIMACJA KURSORA */
         #cursor-glow {
             position: fixed;
@@ -60,6 +59,13 @@
             z-index: 9999;
             transition: opacity 0.3s ease;
         }
+
+        /* Animacja wyniku losowania */
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px rgba(220, 38, 38, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(220, 38, 38, 0.8); }
+        }
+        .win-glow { animation: pulse-red 1.5s infinite; border-color: #ef4444; }
     </style>
 </head>
 <body class="bg-animated" oncontextmenu="return false;">
@@ -76,7 +82,9 @@
             <div class="hidden lg:flex space-x-6 text-xs xl:text-sm font-bold uppercase tracking-widest items-center">
                 <a href="#portfolio" class="hover:text-red-500 transition duration-300">Portfolio</a>
                 <a href="cennik.html" class="hover:text-red-500 transition duration-300">Cennik</a>
-                <a href="#" class="text-gray-500 hover:text-red-500 transition duration-300 cursor-not-allowed" title="Wkrótce">Zniżki</a>
+                <button onclick="openDiscountModal()" class="text-yellow-500 hover:text-yellow-400 transition duration-300 flex items-center gap-2">
+                    <i class="fa-solid fa-gift"></i> Zniżki
+                </button>
                 <a href="#contact" class="hover:text-red-500 transition duration-300">Kontakt</a>
                 
                 <button id="login-btn-desktop" onclick="googleLogin()" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded transition ml-4 text-white">
@@ -97,7 +105,7 @@
     <div id="mobile-menu" class="fixed inset-0 bg-black w-full h-screen z-[45] flex flex-col items-center justify-center space-y-8 text-2xl font-black uppercase tracking-widest transition-transform duration-500 transform translate-x-full lg:hidden">
         <a href="#portfolio" class="mobile-link hover:text-red-600 transition">Portfolio</a>
         <a href="cennik.html" class="mobile-link hover:text-red-600 transition">Cennik</a>
-        <a href="#" class="mobile-link text-gray-500">Zniżki</a>
+        <button onclick="openDiscountModal(); toggleMenu();" class="text-yellow-500 hover:text-yellow-400">Zniżki</button>
         <a href="#contact" class="mobile-link hover:text-red-600 transition">Kontakt</a>
         
         <div class="h-px w-20 bg-gray-800 my-4"></div>
@@ -129,6 +137,29 @@
                         <i class="fa-brands fa-instagram mr-3"></i> Przez Instagram
                     </a>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="discount-modal" class="fixed inset-0 z-[100] hidden">
+        <div class="absolute inset-0 bg-black/95 backdrop-blur-md" onclick="closeDiscountModal()"></div>
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full max-w-md p-4">
+            <div id="discount-card" class="glass-card p-8 rounded-2xl border border-yellow-600/50 relative text-center">
+                <button onclick="closeDiscountModal()" class="absolute top-4 right-4 text-gray-400 hover:text-white text-xl"><i class="fa-solid fa-times"></i></button>
+                
+                <h2 class="text-3xl font-black text-yellow-500 mb-2 uppercase tracking-widest"><i class="fa-solid fa-dice"></i> Daily Drop</h2>
+                <p class="text-gray-400 text-sm mb-8">Losuj zniżkę na usługi graficzne! <br>Resetuje się co 24h.</p>
+                
+                <div id="draw-result" class="bg-black/50 border border-gray-700 p-6 rounded-xl mb-8 min-h-[100px] flex items-center justify-center flex-col">
+                    <i class="fa-solid fa-question text-4xl text-gray-600 mb-2" id="draw-icon"></i>
+                    <p id="draw-text" class="font-bold text-gray-300">Gotowy?</p>
+                </div>
+
+                <button id="spin-btn" onclick="startDraw()" class="w-full bg-yellow-600 hover:bg-yellow-500 text-black font-black py-4 rounded-xl uppercase tracking-widest transition transform hover:scale-105 shadow-lg shadow-yellow-900/50">
+                    LOSUJ
+                </button>
+                
+                <p class="mt-4 text-xs text-gray-600">Szansa: 5% na -5% | 1% na -10%</p>
             </div>
         </div>
     </div>
@@ -219,6 +250,7 @@
     <section id="contact" class="py-16 md:py-20 bg-black text-center">
         <div class="container mx-auto px-4" data-aos="zoom-in">
             <h2 class="text-3xl md:text-4xl font-black uppercase mb-8">Złap mnie tutaj</h2>
+            
             <div class="flex flex-wrap justify-center gap-6 mb-12">
                 <a href="https://discord.gg/TzGGFY2Gnn" target="_blank" class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-[#5865F2] hover:scale-110 transition shadow-lg shadow-blue-900/50">
                     <i class="fa-brands fa-discord text-2xl"></i>
@@ -252,17 +284,29 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // === CONFIG GOOGLE ===
-        const GOOGLE_CLIENT_ID = '310755511974-9q0kok2un8mhu2kkamgv9ebgn1p5aug9.apps.googleusercontent.com'; 
+        // === CONFIG (UZUPEŁNIJ!) ===
+        const GOOGLE_CLIENT_ID = 'TU_WKLEJ_CLIENT_ID_Z_GOOGLE'; 
+        
+        // Zmienne do EmailJS (Wklej tutaj dane ze strony EmailJS.com)
+        const EMAILJS_SERVICE_ID = "service_xxxxxxx"; // np. service_a1b2c3d
+        const EMAILJS_TEMPLATE_ID = "template_xxxxxxx"; // np. template_x9y8z7
+        const EMAILJS_PUBLIC_KEY = "xxxxxxxxxxxxxxxxx"; // np. user_12345abcdef
 
-        // === ZWYKŁY JS (MENU, MODAL, KURSOR) ===
+        // Inicjalizacja EmailJS
+        (function(){
+            emailjs.init(EMAILJS_PUBLIC_KEY);
+        })();
+
+        // === ZWYKŁY JS ===
         AOS.init({ once: true, offset: 50, duration: 800 });
         document.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
 
+        // Menu i Modal
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
         const icon = btn.querySelector('i');
+        const modal = document.getElementById('order-modal');
 
         function toggleMenu() {
             menu.classList.toggle('translate-x-full');
@@ -279,17 +323,17 @@
                 icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
             });
         });
-
-        const modal = document.getElementById('order-modal');
         function openModal() { modal.classList.remove('hidden'); }
         function closeModal() { modal.classList.add('hidden'); }
 
+        // Kursor
         const cursor = document.getElementById('cursor-glow');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
+        // Cookies
         const cookieBanner = document.getElementById('cookie-banner');
         if (!localStorage.getItem('cookiesAccepted')) {
             setTimeout(() => {
@@ -303,12 +347,133 @@
             setTimeout(() => { cookieBanner.classList.add('hidden'); }, 500);
         }
 
-        // === LOGIKA LOGOWANIA GOOGLE ===
-        
+        // === SYSTEM ZNIŻEK (Zabezpieczenie 1 na dzień + Logika) ===
+        const discountModal = document.getElementById('discount-modal');
+        const drawResult = document.getElementById('draw-result');
+        const drawIcon = document.getElementById('draw-icon');
+        const drawText = document.getElementById('draw-text');
+        const spinBtn = document.getElementById('spin-btn');
+
+        function openDiscountModal() {
+            // Sprawdź czy zalogowany
+            if (!localStorage.getItem('google_token')) {
+                alert("Musisz się zalogować przez Google, aby wylosować zniżkę!");
+                return;
+            }
+            discountModal.classList.remove('hidden');
+            checkDailyLimit();
+        }
+
+        function closeDiscountModal() {
+            discountModal.classList.add('hidden');
+        }
+
+        function checkDailyLimit() {
+            const lastDraw = localStorage.getItem('last_draw_date');
+            const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+
+            if (lastDraw === today) {
+                // Już losował dzisiaj
+                drawResult.classList.remove('border-gray-700');
+                drawResult.classList.add('border-red-900', 'bg-red-900/20');
+                drawIcon.className = "fa-solid fa-clock text-4xl text-red-500 mb-2";
+                drawText.innerHTML = "Wróć jutro!<br><span class='text-sm text-gray-400'>Wykorzystałeś limit na dziś.</span>";
+                spinBtn.disabled = true;
+                spinBtn.classList.add('opacity-50', 'cursor-not-allowed');
+                spinBtn.innerText = "JUTRO";
+            } else {
+                // Może losować
+                resetModalState();
+            }
+        }
+
+        function resetModalState() {
+            drawResult.className = "bg-black/50 border border-gray-700 p-6 rounded-xl mb-8 min-h-[100px] flex items-center justify-center flex-col";
+            drawIcon.className = "fa-solid fa-question text-4xl text-gray-600 mb-2";
+            drawText.innerHTML = "Gotowy?";
+            spinBtn.disabled = false;
+            spinBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            spinBtn.innerText = "LOSUJ";
+        }
+
+        function startDraw() {
+            spinBtn.disabled = true;
+            spinBtn.innerText = "LOSOWANIE...";
+            
+            // Prosta animacja
+            let steps = 0;
+            const interval = setInterval(() => {
+                const icons = ['fa-gift', 'fa-percent', 'fa-star', 'fa-ghost'];
+                drawIcon.className = `fa-solid ${icons[steps % 4]} text-4xl text-yellow-500 mb-2`;
+                steps++;
+                
+                if (steps > 10) {
+                    clearInterval(interval);
+                    finalizeDraw();
+                }
+            }, 200);
+        }
+
+        function finalizeDraw() {
+            const rand = Math.random() * 100; // 0 do 100
+            let win = null;
+
+            // LOGIKA:
+            // 1% szans na 10% (0 - 1)
+            // 5% szans na 5% (1 - 6)
+            // Reszta przegrywa
+
+            if (rand < 1) {
+                win = "10%";
+            } else if (rand < 6) {
+                win = "5%";
+            }
+
+            if (win) {
+                // WYGRANA
+                drawResult.className = "bg-yellow-900/30 border border-yellow-500 p-6 rounded-xl mb-8 min-h-[100px] flex items-center justify-center flex-col win-glow";
+                drawIcon.className = "fa-solid fa-trophy text-4xl text-yellow-400 mb-2";
+                drawText.innerHTML = `<span class="text-2xl text-white font-bold">WYGRANA -${win}!</span><br><span class="text-sm text-gray-300">Zniżka przypisana do konta.</span>`;
+                
+                // Wyślij maila
+                sendWinEmail(win);
+            } else {
+                // PRZEGRANA
+                drawResult.className = "bg-gray-800/50 border border-gray-600 p-6 rounded-xl mb-8 min-h-[100px] flex items-center justify-center flex-col";
+                drawIcon.className = "fa-solid fa-face-frown text-4xl text-gray-500 mb-2";
+                drawText.innerHTML = "Pusto...<br><span class='text-sm text-gray-400'>Spróbuj ponownie jutro!</span>";
+            }
+
+            // Zapisz datę, żeby zablokować do jutra
+            const today = new Date().toISOString().split('T')[0];
+            localStorage.setItem('last_draw_date', today);
+            spinBtn.innerText = "KONIEC NA DZIŚ";
+        }
+
+        function sendWinEmail(discount) {
+            // Pobierz dane usera z localStorage (zapisane przy logowaniu)
+            const userName = localStorage.getItem('user_name') || "Nieznany";
+            const userEmail = localStorage.getItem('user_email') || "Brak maila";
+
+            const templateParams = {
+                user_name: userName,
+                user_email: userEmail,
+                discount: discount
+            };
+
+            emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_TEMPLATE_ID, templateParams)
+                .then(function(response) {
+                   console.log('SUCCESS!', response.status, response.text);
+                }, function(error) {
+                   console.log('FAILED...', error);
+                });
+        }
+
+        // === LOGOWANIE GOOGLE ===
         function googleLogin() {
             const tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: GOOGLE_CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/userinfo.profile',
+                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email', // Dodano email scope
                 callback: (tokenResponse) => {
                     if (tokenResponse.access_token) {
                         localStorage.setItem('google_token', tokenResponse.access_token);
@@ -325,6 +490,11 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 const user = await res.json();
+                
+                // Zapisz dane do localStorage (potrzebne do maila z wygraną)
+                localStorage.setItem('user_name', user.name);
+                localStorage.setItem('user_email', user.email);
+
                 updateUI(user);
             } catch (err) {
                 console.error(err);
@@ -333,7 +503,6 @@
         }
 
         function updateUI(user) {
-            // Desktop
             const btnD = document.getElementById('login-btn-desktop');
             const txtD = document.getElementById('login-text-desktop');
             if(btnD) {
@@ -345,7 +514,6 @@
                 btnD.classList.remove('bg-white/10');
                 btnD.classList.add('bg-green-600/20', 'border-green-500', 'text-green-400');
             }
-            // Mobile
             const btnM = document.getElementById('login-btn-mobile');
             const txtM = document.getElementById('login-text-mobile');
             if(btnM) {
@@ -357,7 +525,6 @@
             }
         }
 
-        // Auto login po odświeżeniu
         window.onload = () => {
             const token = localStorage.getItem('google_token');
             if(token) fetchUserInfo(token);
