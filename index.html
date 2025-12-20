@@ -159,7 +159,10 @@
                     LOSUJ
                 </button>
                 
-                <p class="mt-4 text-xs text-gray-600">Szansa: 5% na -5% | 1% na -10%</p>
+                <div id="timer-container" class="hidden mt-4">
+                    <p class="text-gray-400 text-xs uppercase mb-1">Następne losowanie za:</p>
+                    <p id="countdown-timer" class="text-xl font-mono text-yellow-500 font-bold">00:00:00</p>
+                </div>
             </div>
         </div>
     </div>
@@ -250,7 +253,6 @@
     <section id="contact" class="py-16 md:py-20 bg-black text-center">
         <div class="container mx-auto px-4" data-aos="zoom-in">
             <h2 class="text-3xl md:text-4xl font-black uppercase mb-8">Złap mnie tutaj</h2>
-            
             <div class="flex flex-wrap justify-center gap-6 mb-12">
                 <a href="https://discord.gg/TzGGFY2Gnn" target="_blank" class="w-14 h-14 md:w-16 md:h-16 flex items-center justify-center rounded-full bg-[#5865F2] hover:scale-110 transition shadow-lg shadow-blue-900/50">
                     <i class="fa-brands fa-discord text-2xl"></i>
@@ -284,20 +286,18 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // === CONFIG (UZUPEŁNIJ!) ===
-        const GOOGLE_CLIENT_ID = '310755511974-9q0kok2un8mhu2kkamgv9ebgn1p5aug9.apps.googleusercontent.com'; 
-        
-        // Zmienne do EmailJS (Wklej tutaj dane ze strony EmailJS.com)
-        const EMAILJS_SERVICE_ID = "service_ao15a2f"; // np. service_a1b2c3d
-        const EMAILJS_TEMPLATE_ID = "template_k53hqln"; // np. template_x9y8z7
-        const EMAILJS_PUBLIC_KEY = "bSREI9rMwxlDSq6Ud"; // np. user_12345abcdef
+        // === TWOJE KLUCZE ===
+        const GOOGLE_CLIENT_ID = '310755511974-9q0kok2un8mhu2kkamgv9ebgn1p5aug9.apps.googleusercontent.com';
+        const EMAILJS_SERVICE_ID = "service_ao15a2f";
+        const EMAILJS_TEMPLATE_ID = "template_k53hqln";
+        const EMAILJS_PUBLIC_KEY = "bSREI9rMwxlDSq6Ud";
 
         // Inicjalizacja EmailJS
         (function(){
             emailjs.init(EMAILJS_PUBLIC_KEY);
         })();
 
-        // === ZWYKŁY JS ===
+        // === ZWYKŁY JS (MENU, MODAL, KURSOR) ===
         AOS.init({ once: true, offset: 50, duration: 800 });
         document.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
 
@@ -347,12 +347,15 @@
             setTimeout(() => { cookieBanner.classList.add('hidden'); }, 500);
         }
 
-        // === SYSTEM ZNIŻEK (Zabezpieczenie 1 na dzień + Logika) ===
+        // === SYSTEM ZNIŻEK (TIMER + KONTO) ===
         const discountModal = document.getElementById('discount-modal');
         const drawResult = document.getElementById('draw-result');
         const drawIcon = document.getElementById('draw-icon');
         const drawText = document.getElementById('draw-text');
         const spinBtn = document.getElementById('spin-btn');
+        const timerContainer = document.getElementById('timer-container');
+        const timerText = document.getElementById('countdown-timer');
+        let timerInterval;
 
         function openDiscountModal() {
             // Sprawdź czy zalogowany
@@ -366,25 +369,64 @@
 
         function closeDiscountModal() {
             discountModal.classList.add('hidden');
+            if(timerInterval) clearInterval(timerInterval);
         }
 
         function checkDailyLimit() {
-            const lastDraw = localStorage.getItem('last_draw_date');
-            const today = new Date().toISOString().split('T')[0]; // Format YYYY-MM-DD
+            const userEmail = localStorage.getItem('user_email');
+            if (!userEmail) return;
 
-            if (lastDraw === today) {
-                // Już losował dzisiaj
-                drawResult.classList.remove('border-gray-700');
-                drawResult.classList.add('border-red-900', 'bg-red-900/20');
-                drawIcon.className = "fa-solid fa-clock text-4xl text-red-500 mb-2";
-                drawText.innerHTML = "Wróć jutro!<br><span class='text-sm text-gray-400'>Wykorzystałeś limit na dziś.</span>";
-                spinBtn.disabled = true;
-                spinBtn.classList.add('opacity-50', 'cursor-not-allowed');
-                spinBtn.innerText = "JUTRO";
+            const storageKey = 'last_draw_' + userEmail; // Unikalny klucz dla konta
+            const lastDrawTime = localStorage.getItem(storageKey);
+            const now = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000;
+
+            if (lastDrawTime && (now - lastDrawTime < oneDay)) {
+                // Limit aktywny - pokaż timer
+                showTimerMode(lastDrawTime);
             } else {
                 // Może losować
                 resetModalState();
             }
+        }
+
+        function showTimerMode(lastDrawTime) {
+            drawResult.classList.remove('border-gray-700');
+            drawResult.classList.add('border-red-900', 'bg-red-900/20');
+            drawIcon.className = "fa-solid fa-clock text-4xl text-red-500 mb-2";
+            drawText.innerHTML = "Wykorzystano limit!<br><span class='text-sm text-gray-400'>Wróć później.</span>";
+            
+            spinBtn.classList.add('hidden');
+            timerContainer.classList.remove('hidden');
+
+            // Uruchom odliczanie
+            updateTimer(lastDrawTime);
+            timerInterval = setInterval(() => updateTimer(lastDrawTime), 1000);
+        }
+
+        function updateTimer(lastDrawTime) {
+            const now = new Date().getTime();
+            const oneDay = 24 * 60 * 60 * 1000;
+            const nextDraw = parseInt(lastDrawTime) + oneDay;
+            const distance = nextDraw - now;
+
+            if (distance < 0) {
+                // Koniec odliczania
+                clearInterval(timerInterval);
+                resetModalState();
+                timerContainer.classList.add('hidden');
+                spinBtn.classList.remove('hidden');
+                return;
+            }
+
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            timerText.innerHTML = 
+                (hours < 10 ? "0" + hours : hours) + ":" + 
+                (minutes < 10 ? "0" + minutes : minutes) + ":" + 
+                (seconds < 10 ? "0" + seconds : seconds);
         }
 
         function resetModalState() {
@@ -392,15 +434,15 @@
             drawIcon.className = "fa-solid fa-question text-4xl text-gray-600 mb-2";
             drawText.innerHTML = "Gotowy?";
             spinBtn.disabled = false;
-            spinBtn.classList.remove('opacity-50', 'cursor-not-allowed');
             spinBtn.innerText = "LOSUJ";
+            spinBtn.classList.remove('hidden');
+            timerContainer.classList.add('hidden');
         }
 
         function startDraw() {
             spinBtn.disabled = true;
             spinBtn.innerText = "LOSOWANIE...";
             
-            // Prosta animacja
             let steps = 0;
             const interval = setInterval(() => {
                 const icons = ['fa-gift', 'fa-percent', 'fa-star', 'fa-ghost'];
@@ -418,14 +460,14 @@
             const rand = Math.random() * 100; // 0 do 100
             let win = null;
 
-            // LOGIKA:
-            // 1% szans na 10% (0 - 1)
-            // 5% szans na 5% (1 - 6)
-            // Reszta przegrywa
+            // NOWA LOGIKA SZANS:
+            // 0 - 1 (1%) -> 10% zniżki
+            // 1 - 81 (80%) -> 5% zniżki
+            // 81 - 100 (19%) -> Przegrana
 
             if (rand < 1) {
                 win = "10%";
-            } else if (rand < 6) {
+            } else if (rand < 81) {
                 win = "5%";
             }
 
@@ -435,7 +477,6 @@
                 drawIcon.className = "fa-solid fa-trophy text-4xl text-yellow-400 mb-2";
                 drawText.innerHTML = `<span class="text-2xl text-white font-bold">WYGRANA -${win}!</span><br><span class="text-sm text-gray-300">Zniżka przypisana do konta.</span>`;
                 
-                // Wyślij maila
                 sendWinEmail(win);
             } else {
                 // PRZEGRANA
@@ -444,14 +485,18 @@
                 drawText.innerHTML = "Pusto...<br><span class='text-sm text-gray-400'>Spróbuj ponownie jutro!</span>";
             }
 
-            // Zapisz datę, żeby zablokować do jutra
-            const today = new Date().toISOString().split('T')[0];
-            localStorage.setItem('last_draw_date', today);
-            spinBtn.innerText = "KONIEC NA DZIŚ";
+            // Zapisz czas losowania dla KONKRETNEGO MAILA
+            const userEmail = localStorage.getItem('user_email');
+            const now = new Date().getTime();
+            localStorage.setItem('last_draw_' + userEmail, now);
+            
+            // Zmień przycisk na timer od razu
+            setTimeout(() => {
+               showTimerMode(now);
+            }, 2000); // Pokaż wynik przez 2s, potem timer
         }
 
         function sendWinEmail(discount) {
-            // Pobierz dane usera z localStorage (zapisane przy logowaniu)
             const userName = localStorage.getItem('user_name') || "Nieznany";
             const userEmail = localStorage.getItem('user_email') || "Brak maila";
 
@@ -473,7 +518,7 @@
         function googleLogin() {
             const tokenClient = google.accounts.oauth2.initTokenClient({
                 client_id: GOOGLE_CLIENT_ID,
-                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email', // Dodano email scope
+                scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email',
                 callback: (tokenResponse) => {
                     if (tokenResponse.access_token) {
                         localStorage.setItem('google_token', tokenResponse.access_token);
@@ -491,7 +536,6 @@
                 });
                 const user = await res.json();
                 
-                // Zapisz dane do localStorage (potrzebne do maila z wygraną)
                 localStorage.setItem('user_name', user.name);
                 localStorage.setItem('user_email', user.email);
 
@@ -532,4 +576,3 @@
     </script>
 </body>
 </html>
-
