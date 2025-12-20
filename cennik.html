@@ -6,13 +6,17 @@
     <title>Cennik | VIWID.PL</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+
     <style>
         html { scroll-behavior: smooth; }
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #050505;
             color: white;
+            overflow-x: hidden;
             user-select: none;
             animation: fadeIn 0.8s ease-in-out;
             cursor: default;
@@ -21,6 +25,10 @@
             from { opacity: 0; transform: translateY(10px); }
             to { opacity: 1; transform: translateY(0); }
         }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #111; }
+        ::-webkit-scrollbar-thumb { background: #cc0000; border-radius: 5px; }
+
         .box-glow:hover { box-shadow: 0 0 30px rgba(204, 0, 0, 0.4); border-color: #cc0000; }
         .bg-animated { background: radial-gradient(circle at top, #1a0000 0%, #000000 100%); }
         .glass-card {
@@ -28,7 +36,8 @@
             backdrop-filter: blur(10px);
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
-        /* KURSOR */
+
+        /* ANIMACJA KURSORA */
         #cursor-glow {
             position: fixed;
             width: 400px;
@@ -38,6 +47,7 @@
             pointer-events: none;
             transform: translate(-50%, -50%);
             z-index: 9999;
+            transition: opacity 0.3s ease;
         }
     </style>
 </head>
@@ -58,9 +68,9 @@
                 <a href="#" class="text-gray-500 hover:text-red-500 transition cursor-not-allowed">Zniżki</a>
                 <a href="index.html#contact" class="hover:text-red-500 transition">Kontakt</a>
 
-                <a href="#" class="flex items-center gap-2 bg-[#5865F2]/20 hover:bg-[#5865F2] border border-[#5865F2] px-4 py-2 rounded transition ml-4">
-                    <i class="fa-brands fa-discord"></i> Zaloguj
-                </a>
+                <button id="login-btn-desktop" onclick="googleLogin()" class="flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 px-4 py-2 rounded transition ml-4 text-white">
+                    <i class="fa-brands fa-google"></i> <span id="login-text-desktop">Zaloguj</span>
+                </button>
             </div>
 
             <button onclick="openModal()" class="hidden lg:inline-flex bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded-full font-bold transition transform hover:scale-105 shadow-lg shadow-red-900/50">
@@ -81,7 +91,9 @@
         
         <div class="h-px w-20 bg-gray-800 my-4"></div>
 
-        <a href="#" class="text-lg text-[#5865F2] border border-[#5865F2] px-6 py-2 rounded"><i class="fa-brands fa-discord mr-2"></i> Zaloguj przez Discord</a>
+        <button id="login-btn-mobile" onclick="googleLogin()" class="text-lg text-white border border-white px-6 py-2 rounded">
+            <i class="fa-brands fa-google mr-2"></i> <span id="login-text-mobile">Zaloguj przez Google</span>
+        </button>
 
         <button onclick="openModal(); toggleMenu();" class="text-xl bg-red-600 text-white px-10 py-4 rounded-full shadow-[0_0_20px_rgba(220,38,38,0.5)]">
             Zamów
@@ -182,8 +194,15 @@
         </div>
     </footer>
 
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // MENU
+        // === CONFIG GOOGLE ===
+        const GOOGLE_CLIENT_ID = 'TU_WKLEJ_CLIENT_ID_Z_GOOGLE'; 
+
+        // === ZWYKŁY JS (MENU, MODAL, KURSOR) ===
+        AOS.init({ once: true, offset: 50, duration: 800 });
+        document.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', e => e.preventDefault()));
+
         const btn = document.getElementById('menu-btn');
         const menu = document.getElementById('mobile-menu');
         const links = document.querySelectorAll('.mobile-link');
@@ -192,32 +211,29 @@
         function toggleMenu() {
             menu.classList.toggle('translate-x-full');
             if (menu.classList.contains('translate-x-full')) {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
+                icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
             } else {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
+                icon.classList.remove('fa-bars'); icon.classList.add('fa-times');
             }
         }
         btn.addEventListener('click', toggleMenu);
+        links.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('translate-x-full');
+                icon.classList.remove('fa-times'); icon.classList.add('fa-bars');
+            });
+        });
 
-        // MODAL
         const modal = document.getElementById('order-modal');
-        function openModal() {
-            modal.classList.remove('hidden');
-        }
-        function closeModal() {
-            modal.classList.add('hidden');
-        }
+        function openModal() { modal.classList.remove('hidden'); }
+        function closeModal() { modal.classList.add('hidden'); }
 
-        // KURSOR
         const cursor = document.getElementById('cursor-glow');
         document.addEventListener('mousemove', (e) => {
             cursor.style.left = e.clientX + 'px';
             cursor.style.top = e.clientY + 'px';
         });
 
-        // COOKIES
         const cookieBanner = document.getElementById('cookie-banner');
         if (!localStorage.getItem('cookiesAccepted')) {
             setTimeout(() => {
@@ -229,6 +245,66 @@
             localStorage.setItem('cookiesAccepted', 'true');
             cookieBanner.classList.add('translate-y-full');
             setTimeout(() => { cookieBanner.classList.add('hidden'); }, 500);
+        }
+
+        // === LOGIKA LOGOWANIA GOOGLE ===
+        
+        function googleLogin() {
+            const tokenClient = google.accounts.oauth2.initTokenClient({
+                client_id: GOOGLE_CLIENT_ID,
+                scope: 'https://www.googleapis.com/auth/userinfo.profile',
+                callback: (tokenResponse) => {
+                    if (tokenResponse.access_token) {
+                        localStorage.setItem('google_token', tokenResponse.access_token);
+                        fetchUserInfo(tokenResponse.access_token);
+                    }
+                },
+            });
+            tokenClient.requestAccessToken();
+        }
+
+        async function fetchUserInfo(token) {
+            try {
+                const res = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const user = await res.json();
+                updateUI(user);
+            } catch (err) {
+                console.error(err);
+                localStorage.removeItem('google_token');
+            }
+        }
+
+        function updateUI(user) {
+            // Desktop
+            const btnD = document.getElementById('login-btn-desktop');
+            const txtD = document.getElementById('login-text-desktop');
+            if(btnD) {
+                txtD.innerHTML = user.name;
+                const icon = btnD.querySelector('i'); if(icon) icon.remove();
+                const img = document.createElement('img');
+                img.src = user.picture; img.className = "w-6 h-6 rounded-full mr-2";
+                btnD.prepend(img);
+                btnD.classList.remove('bg-white/10');
+                btnD.classList.add('bg-green-600/20', 'border-green-500', 'text-green-400');
+            }
+            // Mobile
+            const btnM = document.getElementById('login-btn-mobile');
+            const txtM = document.getElementById('login-text-mobile');
+            if(btnM) {
+                txtM.innerHTML = `Witaj, ${user.name}`;
+                const icon = btnM.querySelector('i'); if(icon) icon.remove();
+                const img = document.createElement('img');
+                img.src = user.picture; img.className = "w-8 h-8 rounded-full mr-3 inline-block";
+                btnM.prepend(img);
+            }
+        }
+
+        // Auto login po odświeżeniu
+        window.onload = () => {
+            const token = localStorage.getItem('google_token');
+            if(token) fetchUserInfo(token);
         }
     </script>
 </body>
